@@ -1,11 +1,27 @@
 //const express = require('express') //CommonJS
 import express from 'express' //EMAC modules
 import usuarioRoutes from './routes/usuarioRoutes.js'
-
+import db from './config/db.js'
 
 
 //Crear la app
 const app = express()
+
+//Habllitar lectura de datos de formularios
+app.use(express.urlencoded({extended: true}))
+
+
+
+//Conexión a la base de datos
+try{
+    await db.authenticate();
+    db.sync()
+    console.log('Conexion exitosa a la base de datos')
+}catch(error) {
+    console.log(error)
+}
+
+
 
 //Habilitar pug 
 app.set('view engine', 'pug')
