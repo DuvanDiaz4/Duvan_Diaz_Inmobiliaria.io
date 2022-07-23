@@ -1,5 +1,9 @@
 import { check, validationResult } from 'express-validator';
 import Usuario from '../models/Usuario.js';
+import { generarId } from '../helpers/tokens.js';
+
+
+//-------------------------//
 
 const formularioLogin = (req, res) =>{
     res.render('auth/login', {
@@ -7,12 +11,16 @@ const formularioLogin = (req, res) =>{
     })
 }
 
+//--------------------------//
+
 const formularioRegistro = (req, res) =>{
     res.render('auth/registro', {
         pagina: 'Crear Cuenta'
     })
 }
 
+
+//-------------------------//
 
 const registrar = async (req, res) => {
     //Validacion de formularios
@@ -67,17 +75,30 @@ const registrar = async (req, res) => {
         nombre,
         email,
         password,
-        token: 123
+        token: generarId()
+    })
+
+
+    //Mostrar mensaje de confirmación
+    res.render('templates/mensaje', {
+        pagina: 'Cuenta Creada correctamente',
+        mensaje: 'Por favor verifique su correo para activar su cuenta',
+
     })
 
 }
 
+
+//-------------------------//
 
 const formularioOlvidePassword = (req, res) =>{
     res.render('auth/olvide-password', {
         pagina: 'Recupera tu acceso a Bienes Raices'
     })
 }
+
+
+//-------------------------//
 
 export {
     formularioLogin,
