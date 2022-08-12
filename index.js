@@ -1,5 +1,7 @@
 //const express = require('express') //CommonJS
 import express from 'express' //EMAC modules
+import csurf from 'csurf'
+import cookieParser from 'cookie-parser'
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import db from './config/db.js'
 
@@ -9,6 +11,14 @@ const app = express()
 
 //Habllitar lectura de datos de formularios
 app.use(express.urlencoded({extended: true}))
+
+
+//Habilitar cookie-parser
+app.use(cookieParser() )
+
+
+//Habilidar CSRF
+app.use(csurf({cookie: true}))
 
 
 
@@ -36,7 +46,7 @@ app.use('/auth', usuarioRoutes)
 
 
 //Definir un puerto y arrancar el proyecto 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.groupCollapsed(`El servidor esta funcionando en el puerto ${port}`)
