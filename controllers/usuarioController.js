@@ -138,9 +138,43 @@ const confirmar = async(req, res) => {
 
 const formularioOlvidePassword = (req, res) =>{
     res.render('auth/olvide-password', {
-        pagina: 'Recupera tu acceso a Bienes Raices'
+        pagina: 'Recupera tu acceso a Bienes Raices',
+        csrfToken: req.csrfToken()
     })
 }
+
+
+const resetPassword = async (req, res) => {
+
+    await check('email').isEmail().withMessage('El email no es valido').run(req)
+
+    let resultado = validationResult(req); //se ejecutan los await uno por uno antes de esta linea de codigo
+    
+    //Verificar que el resultado esté vacio o si no mostrar alerta
+    if(!resultado.isEmpty()) {
+        //Errores de validacion
+        return res.render('auth/olvide-password', {
+            pagina: 'Recupera tu acceso a Bienes Raices',
+            csrfToken: req.csrfToken(),
+            errores: resultado.array()
+        })
+    }
+
+    
+    //Buscar el usuario - si el usuario existe en la base de datos
+    const { email } = req.body 
+
+    const usuario = await Usuario.findOne({ where: { email }})
+
+    console.log(usuario)
+
+
+
+
+}
+
+
+
 
 
 //-------------------------//
@@ -150,5 +184,6 @@ export {
     formularioRegistro,
     registrar,
     confirmar,
-    formularioOlvidePassword
+    formularioOlvidePassword, 
+    resetPassword
 }
