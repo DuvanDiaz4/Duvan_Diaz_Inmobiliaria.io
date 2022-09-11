@@ -1,18 +1,88 @@
 import { check, validationResult } from 'express-validator';
-import Usuario from '../models/Usuario.js';
-import { generarId } from '../helpers/tokens.js';
-import { emailRegistro, emailOlvidePassword } from '../helpers/emails.js';
 import bcrypt from 'bcrypt';
+import Usuario from '../models/Usuario.js';
+import { generarJWT, generarId } from '../helpers/tokens.js';
+import { emailRegistro, emailOlvidePassword } from '../helpers/emails.js';
 
-//-------------------------//
+//-------------1------------//
 
 const formularioLogin = (req, res) =>{
     res.render('auth/login', {
-        pagina: 'Iniciar Sesión'
+        pagina: 'Iniciar Sesión',
+        csrfToken: req.csrfToken()
     })
 }
 
-//--------------------------//
+//------------2------------//
+
+const autenticar = async(req, res) => {
+
+    //validacion de formularios
+    await check('email').isEmail().withMessage('El email es obligatorio').run(req)
+    await check('password').notEmpty().withMessage('La Contraseña es obligatoria').run(req)
+
+
+    let resultado = validationResult(req); //se ejecutan los await uno por uno antes de esta linea de codigo
+    
+    //Verificar que el resultado esté vacio o si no mostrar alerta
+    if(!resultado.isEmpty()) {
+        //Errores de validacion
+        return res.render('auth/login', {
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: resultado.array(),
+        })
+    }
+
+    
+    const { email, password } = req.body;
+
+    //Comprobar si el usuario existe 
+    const usuario = await  Usuario.findOne({ where: { email }})
+    if(!usuario){
+        return res.render('auth/login', {
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'El usuario no existe'}]
+        })
+    }
+
+    // comprobar si el usuario está confirmado 
+    if(!usuario.confirmado){
+        return res.render('auth/login', {
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'Tu cuenta no ha sido confirmada'}]
+        })
+    } 
+
+    //Verificar el password
+    if(!usuario.verificarPassword(password)) {
+        return res.render('auth/login', {
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'El password es incorrecto'}]
+        })
+    }
+
+    //Autenticar al usuario JWT
+
+    const token = generarJWT({id: usuario.id, nombre: usuario.nombre});
+
+    console.log(token);
+
+
+    //Almacenar el token en cookie
+
+    return res.cookie('_token', token, {
+        httpOnly: true,
+        //secure: true //si tengo certificado SSH
+    }).redirect('/mis-propiedades')
+
+}
+
+
+//-------------3-------------//
 
 const formularioRegistro = (req, res) =>{
 
@@ -25,7 +95,7 @@ const formularioRegistro = (req, res) =>{
 }
 
 
-//-------------------------//
+//------------4-------------//
 
 const registrar = async (req, res) => {
     //Validacion de formularios
@@ -102,6 +172,8 @@ const registrar = async (req, res) => {
 
 }
 
+//------------5-------------//
+
 //Funcion que comprueba una cuenta de usuario
 const confirmar = async(req, res) => {
 
@@ -135,7 +207,7 @@ const confirmar = async(req, res) => {
 
 }
 
-//-------------------------//
+//-------------6------------//
 
 const formularioOlvidePassword = (req, res) =>{
     res.render('auth/olvide-password', {
@@ -144,6 +216,8 @@ const formularioOlvidePassword = (req, res) =>{
     })
 }
 
+
+//-------------7------------//
 
 const resetPassword = async (req, res) => {
     //validación
@@ -195,6 +269,9 @@ const resetPassword = async (req, res) => {
 
 }
 
+
+//-------------8------------//
+
 const comprobarToken = async(req, res) => {
     
     const { token } = req.params;
@@ -216,6 +293,7 @@ const comprobarToken = async(req, res) => {
 
 }
 
+//-------------9------------//
 
 const nuevoPassword = async(req, res) => {
     
@@ -257,13 +335,11 @@ const nuevoPassword = async(req, res) => {
 }
 
 
-
-
-
 //-------------------------//
 
 export {
     formularioLogin,
+    autenticar,
     formularioRegistro,
     registrar,
     confirmar,

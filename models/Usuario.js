@@ -16,7 +16,7 @@ const Usuario = db.define('usuarios', {
         allowNull: false,
     }, 
     token: DataTypes.STRING,
-    Cconfirmado: DataTypes.BOOLEAN
+    confirmado: DataTypes.BOOLEAN
 }, 
 
 //Hashear password
@@ -28,5 +28,12 @@ const Usuario = db.define('usuarios', {
         }
     }
 })
+
+//------Métodos personalizados--------//
+
+//comprobar usuario registrado por password
+Usuario.prototype.verificarPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
 
 export default Usuario;

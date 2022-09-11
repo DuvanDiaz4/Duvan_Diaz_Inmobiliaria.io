@@ -7,17 +7,22 @@ block contenido
 
     div.mt-8.mx-auto.max-w-md
         div.bg-white.py-8.px-4.shadow
-            form(action="").space-y-5  
-                
+            form(method="POST" action="/auth/login").space-y-5  
+                input(type="hidden" name="_csrf" value=csrfToken)
                 div   
                     label.block.text-sm.uppercase.text-light.mb-3.font-bold(for="email") Email
                     input#email.w-full.px-3.py-2.border.border-light.rounded-md.placeholder-gray-400(placeholder="Tu email" type="text" name="email")
                 div   
                     label.block.text-sm.uppercase.text-light.mb-3.font-bold(for="password") Password
-                    input#password.w-full.px-3.py-2.border.border-light.rounded-md.placeholder-gray-400(placeholder="Tu password" type="text" name="password")
+                    input#password.w-full.px-3.py-2.border.border-light.rounded-md.placeholder-gray-400(placeholder="Tu password" type="password" name="password")
 
                 div.flex.items-center.justify-between
                     a.text-light.text-xs(href="/auth/registro") ¿No tienes cuenta? Crea tu cuenta
                     a.text-light.text-xs(href="/auth/olvide-password") Olvide mi Password
+
+                if errores
+                    div(class="max-w-md mx-auto my-10")
+                    each error in errores
+                        p(class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700 border-opacity-50 uppercase mb-2 text-xs text-center font-bold")= error.msg
 
                 input(class="w-full bg-greendark hover:bg-blue text-white font-bold py-3 cursor-pointer" type="submit" value="Iniciar Sesion")
