@@ -38,7 +38,7 @@
             //Llenar los campos para actualizar la BD
             document.querySelector('.calle').textContent = resultado?.address?.Address ?? '';
             document.querySelector('#calle').value = resultado?.address?.Address ?? '';
-            document.querySelector('#lat').value = resultado?.latlng?.latlng ?? '';
+            document.querySelector('#lat').value = resultado?.latlng?.lat ?? '';
             document.querySelector('#lng').value = resultado?.latlng?.lng ?? '';
         })
     })

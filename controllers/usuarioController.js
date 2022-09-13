@@ -66,14 +66,12 @@ const autenticar = async(req, res) => {
     }
 
     //Autenticar al usuario JWT
-
     const token = generarJWT({id: usuario.id, nombre: usuario.nombre});
 
     console.log(token);
 
 
     //Almacenar el token en cookie
-
     return res.cookie('_token', token, {
         httpOnly: true,
         //secure: true //si tengo certificado SSH
