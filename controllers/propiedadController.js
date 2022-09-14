@@ -4,7 +4,6 @@ import { Precio, Categoria, Propiedad } from '../models/index.js'
 const admin = (req, res) => {
     res.render('propiedades/admin', {
         pagina: 'Administra tus propiedades',
-        barra: true
     })
 }
 
@@ -20,7 +19,6 @@ const crear = async(req, res) => {
 
     res.render('propiedades/crear', {
         pagina: 'Crear Propiedad',
-        barra: true,
         categorias: categorias,
         csrfToken: req.csrfToken(),
         precios: precios,
@@ -46,7 +44,6 @@ const guardar = async(req, res) => {
 
         return res.render('propiedades/crear', {
             pagina: 'Crear Propiedad',
-            barra: true,
             csrfToken: req.csrfToken(),
             categorias: categorias,
             precios: precios,
@@ -90,9 +87,20 @@ const guardar = async(req, res) => {
 }
 
 
+//Agregar Imagen a la propiedad 
+const agregarImagen = async (req, res) => {
+
+   res.render('propiedades/agregar-imagen', {
+       pagina: 'Agregar Imagen'
+   })
+
+}
+
+
 
 export {
     admin,
     crear, 
-    guardar
+    guardar,
+    agregarImagen
 }

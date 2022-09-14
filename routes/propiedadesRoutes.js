@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from 'express-validator';
-import { admin, crear, guardar } from "../controllers/propiedadController.js";
+import { admin, crear, guardar, agregarImagen } from "../controllers/propiedadController.js";
 import  protegerRuta from '../middleware/protegerRuta.js'
 
 
@@ -23,5 +23,7 @@ router.post('/propiedades/crear',
     body('lng').notEmpty().withMessage('Ubica la propiedad en el mapa'),
     guardar 
     );
+
+router.get('/propiedades/agregar-imagen/:id', agregarImagen);
 
 export default router;
