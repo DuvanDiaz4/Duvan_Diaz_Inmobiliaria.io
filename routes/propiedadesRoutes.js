@@ -24,6 +24,8 @@ router.post('/propiedades/crear',
     guardar 
     );
 
-router.get('/propiedades/agregar-imagen/:id', agregarImagen);
+router.get('/propiedades/agregar-imagen/:id', 
+    protegerRuta,
+    agregarImagen);
 
 export default router;
