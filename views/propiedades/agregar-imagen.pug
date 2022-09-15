@@ -1,7 +1,7 @@
 extends ../layout/admin
 
 block styles
-    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css")
 
 block contenido
     div.py-0
@@ -11,10 +11,14 @@ block contenido
         
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
 
-            form.space-y-8(method="POST" action="/propiedades/crear")
-                
+            form(class="dropzone flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600")(method="POST" action="/propiedades/crear")
+                input(type="hidden" name="_csrf" value=csrfToken)
+                div(class="flex flex-col items-center justify-center")
+                    p(class="text-sm text-gray-600 dark:text-gray-400") Arrastra tus archivos o haz click aquí
+                    p(class="text-xs text-gray-400 dark:text-gray-500") PNG, JPG, GIF hasta 10MB
             
 
-                    input(class="w-full py-3 bg-greendark hover:bg-blue rounded text-white font-bold cursor-pointer" type="submit" value="Publicar Propiedad ")
+            input(class="mt-5 w-full py-3 bg-greendark hover:bg-blue rounded text-white font-bold cursor-pointer" type="submit" value="Publicar Propiedad ")
 
 block scripts 
+    script(src="/js/agregarImagen.js")
