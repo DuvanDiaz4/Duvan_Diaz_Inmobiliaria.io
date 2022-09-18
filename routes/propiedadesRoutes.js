@@ -1,12 +1,14 @@
-import express from "express";
+import express, { Router } from "express";
 import { body } from 'express-validator';
-import { admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios } from "../controllers/propiedadController.js";
+import { admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, mostrarPropiedad } from "../controllers/propiedadController.js";
 import  protegerRuta from '../middleware/protegerRuta.js'
 import upload from '../middleware/subirImagen.js'
 
 
 const router = express.Router();
 
+
+//--------------RUTAS PROTEGIDAS----------------//
 
 router.get('/mis-propiedades', protegerRuta, admin);
 router.get('/propiedades/crear', protegerRuta, crear);
@@ -55,5 +57,16 @@ router.post('/propiedades/editar/:id',
     body('lng').notEmpty().withMessage('Ubica la propiedad en el mapa'),
     guardarCambios
     );
+
+router.post('/propiedades/eliminar/:id',
+    protegerRuta,
+    eliminar
+    );
+
+
+//-----------------RUTAS PUBLICAS-----------------//
+router.get('/propiedad/:id', 
+    mostrarPropiedad
+);
 
 export default router;
