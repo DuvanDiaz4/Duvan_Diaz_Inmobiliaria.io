@@ -3,6 +3,13 @@ header.bg-angel.p-4.shadow-md
                 h1.text-xl.text-blue.font-extrabold.text-center BienesRaices.io
 
                 nav(class="my-3 text-sm text-light md:flex md:items-center md:gap-6 font-bold hidden")
-                    a(href="" class="hover:text-greendark") Mis propiedades
-                    a(href="" class="hover:text-greendark") Perfil
-                    a(href="" class="bg-greendark hover:bg-blue text-white rounded px-4 py-2") Cerrar Sesión
+                    a(href="/auth/registro" class="hover:text-greendark") Crear Cuenta
+                    a(href="/auth/login" class="bg-greendark hover:bg-blue text-white rounded px-4 py-2") Iniciar Sesión
+
+div(class="bg-greendark py-5 hidden lg:block")
+    div(class="container mx-auto flex justify-between")
+        a(href="/categorias/1" class="text-sm font-bold text-white uppercase") Casas
+        a(href="/categorias/2" class="text-sm font-bold text-white uppercase") Apartamentos 
+        a(href="/categorias/3" class="text-sm font-bold text-white uppercase") Bodegas 
+        a(href="/categorias/4" class="text-sm font-bold text-white uppercase") Terrenos
+        a(href="/categorias/5" class="text-sm font-bold text-white uppercase") Cabañas
