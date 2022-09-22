@@ -3,12 +3,20 @@ extends ./layout/app
 block styles
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
 
+block banner
+
+    include ./layout/includes/banner 
+
 block contenido 
+
+    include ./layout/includes/beneficios
 
     div(class="py-5")
         h1(class="text-center text-4xl font-extrabold text-greendark") Ubicación en el Mapa
 
+        div(id="mapa-inicio" class="h-96 w-full mt-6")
+
 block scripts 
 
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
-    script(src="/js/mostrarMapa.js")
+    script(src="/js/mapaInicio.js")
