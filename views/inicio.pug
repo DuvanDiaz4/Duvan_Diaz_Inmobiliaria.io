@@ -14,6 +14,25 @@ block contenido
     div(class="py-5")
         h1(class="text-center text-4xl font-extrabold text-greendark") Ubicación en el Mapa
 
+        div(class="flex flex-col md:flex-row items-center py-10 gap-4")
+            h2(class="text-lg uppercase text-greendark font-bold") Filtrar Propiedades:
+
+            div(class="w-full md:w-auto flex items-center gap-2")
+                label(for="categorias" class="text-md w-24 uppercase text-blue font-bold") Categorias
+                select(id="categorias" class="flex-1 bg-light w-full px-3 py-2 border border-greendark rounded-md shadow")
+                    option(value="") -- Seleccione --
+                    each categoria in categorias 
+                        option(value=categoria.id)= categoria.nombre
+
+            
+
+            div(class="w-full md:w-auto flex items-center gap-2")
+                label(for="precios" class="text-md w-24 uppercase text-blue font-bold") Precios
+                select(id="precios" class="flex-1 bg-light w-full px-3 py-2 border border-greendark rounded-md shadow")
+                    option(value="") -- Seleccione --
+                    each precio in precios
+                        option(value=precio.id)= precio.nombre
+
         div(id="mapa-inicio" class="h-96 w-full mt-6")
 
 block scripts 

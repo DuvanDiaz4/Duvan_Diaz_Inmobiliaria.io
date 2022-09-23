@@ -29213,6 +29213,10 @@ video {
           animation: bounce 1s infinite;
 }
 
+.leaflet-container a {
+  color: #FFF;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
