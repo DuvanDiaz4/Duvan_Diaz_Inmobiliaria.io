@@ -1,0 +1,29 @@
+extends ../layout/admin
+
+block contenido
+    h2(class="text-2xl font-extrabold text-center my-6 text-greendark")= pagina
+    
+    a(href="/mis-propiedades" class="text-center rounded py-2.5 px-6 bg-greendark text-white hover:bg-blue font-semibold") Volver  
+
+    //-pre= JSON.stringify(mensajes, null, 2)
+
+    div(class="mx-auto max-w-4xl bg-angel shadow mt-10")
+
+        if mensajes.length 
+            ul 
+                each mensaje in mensajes
+                    li(class="border-light border-b p-5")
+
+                        p(class="font-bold text-greendark") Nombre:  
+                            span(class="font-normal")= mensaje.usuario.nombre
+
+                        p(class="font-bold text-greendark") Email:  
+                            span(class="font-normal")= mensaje.usuario.email
+
+                        p(class="font-bold text-greendark") Mensaje:  
+                            span(class="font-normal")= mensaje.mensaje
+                        
+                        p(class="font-bold text-greendark") Enviado: 
+                            span(class="font-normal")= formatearFecha( mensaje.createdAt )
+        else
+            p(class="text-center text-greendark p-5") No hay mensajes para esta propiedad
