@@ -5,5 +5,7 @@ header.bg-angel.p-4.shadow-md
 
                 nav(class="my-3 text-sm text-light md:flex md:items-center md:gap-6 font-bold hidden")
                     a(href="/mis-propiedades" class="hover:text-greendark") Mis propiedades
-                    a(href="" class="hover:text-greendark") Perfil
-                    a(href="" class="bg-greendark hover:bg-blue text-white rounded px-4 py-2") Cerrar Sesión
+
+                    form(action="/auth/cerrar-sesion" method="POST")
+                        input(type="hidden" name="_csrf" value=csrfToken)
+                        input(type="submit" value="Cerrar Sesión" class="bg-greendark font-bold hover:bg-blue text-white rounded px-4 py-2")
