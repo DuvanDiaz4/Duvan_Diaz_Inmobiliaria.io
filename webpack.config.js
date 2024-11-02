@@ -13,4 +13,5 @@ export default {
         filename: '[name].js',
         path: path.resolve('public/js')
     }
+    
 }
